@@ -1,0 +1,21 @@
+{
+  "name": "red64-plugins",
+  "version": "0.0.1",
+  "description": "Bundled plugins for Red64 development system",
+  "owner": {
+    "name": "Red64 LLC",
+    "email": "support@red64.io"
+  },
+  "plugins": [
+    {
+      "name": "core",
+      "description": "Core Spec Driven Development Workflows",
+      "source": "./plugins/core",
+      "category": "development",
+      "author": {
+        "name": "Yacin Bahi",
+        "email": "yacin@red64.io"        
+      }
+    }
+  ]
+}

@@ -4,16 +4,16 @@
 
 ## Milestone 1: Core Foundation & Marketplace
 
-1. [ ] Red64 marketplace repository -- Create `red64-marketplace` repo with `.claude-plugin/marketplace.json` listing all Red64 plugins `S`
-2. [ ] Plugin manifest and structure -- Create `red64-core` plugin with `.claude-plugin/plugin.json`, directory structure for `commands/`, `agents/`, `skills/`, `hooks/`, and README documentation `S`
-3. [ ] Project initialization command -- `/red64:init` command (in `red64-core/commands/`) that creates `.red64/` directory structure with config.yaml `S`
+1. [X] Red64 marketplace repository -- Create marketplace with `.claude-plugin/marketplace.json` listing all Red64 plugins `S`
+2. [X] Plugin manifest and structure -- Create `plugins/core` plugin with `.claude-plugin/plugin.json`, directory structure for `commands/`, `agents/`, `skills/`, `hooks/`, and README documentation `S`
+3. [ ] Project initialization command -- `/red64:init` command (in `plugins/core/commands/`) that creates `.red64/` directory structure with config.yaml `S`
 4. [ ] Hook infrastructure -- Implement `hooks/hooks.json` with `UserPromptSubmit` hook that analyzes prompts and prepares for context injection `M`
 5. [ ] Context loader script -- Python script (`scripts/context-loader.py`) that detects file types, keywords, and task type from user prompts `M`
 6. [ ] Token budget management -- Configurable token budgets in `.red64/config.yaml` with priority-based selection when limits are reached `S`
 
 ## Milestone 2: Product Planning Workflow
 
-> All commands below live in `red64-core/commands/` directory
+> All commands below live in `plugins/core/commands/` directory
 
 7. [ ] Product planning command -- `/red64:plan-product` command that guides users through creating mission, roadmap, and tech-stack documents `M`
 8. [ ] Mission document template -- Template and workflow for capturing product pitch, users, problems, differentiators, and success metrics `S`
@@ -35,7 +35,7 @@
 
 ## Milestone 4: Spec-Driven Development Workflow
 
-> All commands and agents below live in `red64-core` plugin
+> All commands and agents below live in `core` plugin
 
 19. [ ] Shape spec command -- `/red64:shape-spec` interactive command that refines rough ideas into well-scoped requirements `M`
 20. [ ] Write spec command -- `/red64:write-spec` command that transforms requirements.md into detailed specification.md `M`
@@ -47,7 +47,7 @@
 
 ## Milestone 5: Multi-Agent Orchestration
 
-> All agents below live in `red64-core/agents/` directory
+> All agents below live in `core/agents/` directory
 
 26. [ ] Orchestrator agent -- Meta-agent that coordinates multi-phase workflows and manages agent handoffs `L`
 27. [ ] Implementer agent -- Specialized agent for code implementation with standards awareness `M`
@@ -66,7 +66,7 @@
 35. [ ] Extension plugin template -- Define extension plugin structure with MCP integration guidelines `S`
 36. [ ] Metrics collector infrastructure -- Framework for collecting token usage, task velocity, and quality metrics `M`
 37. [ ] Metrics storage -- Local SQLite database for session and project metrics `S`
-38. [ ] Metrics reporting command -- `/red64:metrics` command (in `red64-core`) for viewing productivity reports `M`
+38. [ ] Metrics reporting command -- `/red64:metrics` command (in `core`) for viewing productivity reports `M`
 39. [ ] GitHub extension plugin -- `red64-github` plugin for PR workflow integration using gh CLI `L`
 40. [ ] Migration utility -- `/red64:migrate-from-agent-os` command for users transitioning from Agent OS `M`
 
@@ -81,7 +81,7 @@
 
 > **Notes**
 > - **Plugin-first architecture**: All functionality lives within plugins distributed through the Red64 marketplace
-> - **Plugin types**: `red64-core` (commands, agents, hooks), `red64-standards-*` (skills for coding standards), `red64-*` extensions (integrations)
+> - **Plugin types**: `core` (commands, agents, hooks), `red64-standards-*` (skills for coding standards), `red64-*` extensions (integrations)
 > - **Skills vs Hooks**: Standards use Skills (Claude applies autonomously) + Hooks (enforcement validation)
 > - Order reflects technical dependencies (marketplace before plugins, hooks before standards, etc.)
 > - Each milestone builds a complete, testable layer of functionality

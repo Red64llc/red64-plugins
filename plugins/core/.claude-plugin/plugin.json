@@ -1,0 +1,10 @@
+{
+    "name": "core",
+    "description": "Core Spec Driven Development Workflows",
+    "source": "./plugins/core",
+    "category": "development",
+    "author": {
+    "name": "Yacin Bahi",
+    "email": "yacin@red64.io"        
+    }
+}

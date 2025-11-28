@@ -136,21 +136,17 @@ Red64 is a Claude Code plugin framework. The codebase consists of plugin definit
 ---
 
 ## Plugin Architecture Overview
+follows architecture of Claude Code demo plugins: [claude-code](https://github.com/anthropics/claude-code/tree/main)
 ```
-  red64-marketplace/
-  ├── .claude-plugin/marketplace.json    # Lists all Red64 plugins
-  │
-  red64-core/                            # Main plugin
-  ├── .claude-plugin/plugin.json
-  ├── commands/                          # /red64:init, /red64:plan-product, etc.
-  ├── agents/                            # orchestrator, implementer, reviewer, etc.
-  ├── skills/                            # (optional) core skills
-  └── hooks/hooks.json                   # UserPromptSubmit, PreToolUse hooks
-  │
-  red64-standards-typescript/            # Standards plugin (separate)
-  ├── .claude-plugin/plugin.json
-  ├── skills/SKILL.md                    # Claude applies autonomously
-  └── hooks/hooks.json                   # Enforcement validation
+  .claude-plugin/marketplace.json    # Lists all Red64 plugins
+  └── plugins
+      ├── red64-core
+      │   ├── agents
+      │   ├── commands
+      │   ├── hooks
+      │   │   └── hooks.json
+      │   └── skills
+      └── red64-standards-typescript
 ```
 
 --- 
