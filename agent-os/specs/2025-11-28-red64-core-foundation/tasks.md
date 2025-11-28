@@ -17,25 +17,25 @@ This breakdown covers the foundational infrastructure for Red64's context-aware 
 **Dependencies:** None
 **Effort:** S (Small)
 
-- [ ] 1.0 Complete configuration schema and init command
-  - [ ] 1.1 Write 4 focused tests for `/red64:init` command behavior (S)
+- [x] 1.0 Complete configuration schema and init command
+  - [x] 1.1 Write 4 focused tests for `/red64:init` command behavior (S)
     - Test: Creates `.red64/` directory structure when missing
     - Test: Generates valid `config.yaml` with default schema
     - Test: Skips overwrite when `config.yaml` already exists (idempotent)
     - Test: Creates subdirectories `product/`, `specs/`, `metrics/`
-  - [ ] 1.2 Define configuration schema for `.red64/config.yaml` (XS)
+  - [x] 1.2 Define configuration schema for `.red64/config.yaml` (XS)
     - Version field: `version: "1.0"`
     - `token_budget` section with `max_tokens`, `overflow_behavior`
     - `context_loader` section with `enabled`, `task_detection`, `file_type_detection`
     - `priorities` section for context item priority levels
     - `features` section for future feature flags
-  - [ ] 1.3 Create `/red64:init` command markdown file (S)
+  - [x] 1.3 Create `/red64:init` command markdown file (S)
     - Location: `plugins/core/commands/red64-init.md`
     - Implement directory creation logic
     - Generate default `config.yaml` from schema
     - Handle idempotent behavior (check existence before creating)
     - Provide clear success/skip messages
-  - [ ] 1.4 Ensure configuration tests pass (XS)
+  - [x] 1.4 Ensure configuration tests pass (XS)
     - Run ONLY the 4 tests written in 1.1
     - Verify command behavior matches spec
 
@@ -53,20 +53,20 @@ This breakdown covers the foundational infrastructure for Red64's context-aware 
 **Dependencies:** Task Group 1
 **Effort:** S (Small)
 
-- [ ] 2.0 Complete hook infrastructure
-  - [ ] 2.1 Write 3 focused tests for hook configuration (XS)
+- [x] 2.0 Complete hook infrastructure
+  - [x] 2.1 Write 3 focused tests for hook configuration (XS)
     - Test: `hooks.json` is valid JSON matching Claude Code hook schema
     - Test: Hook correctly references `context-loader.py` script path
     - Test: Timeout is configured to 30 seconds
-  - [ ] 2.2 Configure `hooks/hooks.json` with UserPromptSubmit hook (XS)
+  - [x] 2.2 Configure `hooks/hooks.json` with UserPromptSubmit hook (XS)
     - Location: `plugins/core/hooks/hooks.json`
     - Hook type: `command`
     - Command: `python3 plugins/core/scripts/context-loader.py`
     - Timeout: 30 seconds
-  - [ ] 2.3 Create scripts directory structure (XS)
+  - [x] 2.3 Create scripts directory structure (XS)
     - Create `plugins/core/scripts/` directory
     - Ensure proper permissions for script execution
-  - [ ] 2.4 Ensure hook configuration tests pass (XS)
+  - [x] 2.4 Ensure hook configuration tests pass (XS)
     - Run ONLY the 3 tests written in 2.1
     - Verify JSON schema compliance
 
@@ -84,15 +84,15 @@ This breakdown covers the foundational infrastructure for Red64's context-aware 
 **Dependencies:** Task Group 2
 **Effort:** S (Small)
 
-- [ ] 3.0 Complete task detector script
-  - [ ] 3.1 Write 6 focused tests for task detection (S)
+- [x] 3.0 Complete task detector script
+  - [x] 3.1 Write 6 focused tests for task detection (S)
     - Test: Detects `shape` task from keywords ("requirements", "scope", "define")
     - Test: Detects `implement` task from keywords ("implement", "build", "create")
     - Test: Detects `review` task from keywords ("review", "check", "audit")
     - Test: Detects `test` task from keywords ("test", "verify", "validate")
     - Test: Detects `debug` task from keywords ("debug", "fix", "error", "bug")
     - Test: Returns `unknown` for prompts with no matching keywords
-  - [ ] 3.2 Create `task-detector.py` script (M)
+  - [x] 3.2 Create `task-detector.py` script (M)
     - Location: `plugins/core/scripts/task-detector.py`
     - Python 3.11+ with full type hints
     - Input: JSON via stdin with `prompt` field
@@ -100,7 +100,7 @@ This breakdown covers the foundational infrastructure for Red64's context-aware 
     - Implement keyword patterns for all 7 task types:
       - `shape`, `write-spec`, `implement`, `review`, `test`, `debug`, `refactor`
     - Pattern matching using lowercase keyword search
-  - [ ] 3.3 Ensure task detector tests pass (XS)
+  - [x] 3.3 Ensure task detector tests pass (XS)
     - Run ONLY the 6 tests written in 3.1
     - Verify all task type detections work correctly
 
@@ -117,14 +117,14 @@ This breakdown covers the foundational infrastructure for Red64's context-aware 
 **Dependencies:** Task Group 2
 **Effort:** S (Small)
 
-- [ ] 4.0 Complete file detector script
-  - [ ] 4.1 Write 5 focused tests for file type detection (S)
+- [x] 4.0 Complete file detector script
+  - [x] 4.1 Write 5 focused tests for file type detection (S)
     - Test: Detects `.py` extension from prompt mentioning Python files
     - Test: Detects `.ts` extension from prompt mentioning TypeScript files
     - Test: Detects `.md` extension from prompt mentioning markdown files
     - Test: Detects explicit filenames (e.g., "config.yaml", "hooks.json")
     - Test: Detects path references (e.g., "plugins/core/scripts/")
-  - [ ] 4.2 Create `file-detector.py` script (M)
+  - [x] 4.2 Create `file-detector.py` script (M)
     - Location: `plugins/core/scripts/file-detector.py`
     - Python 3.11+ with full type hints
     - Input: JSON via stdin with `prompt` field
@@ -132,7 +132,7 @@ This breakdown covers the foundational infrastructure for Red64's context-aware 
     - Detect common extensions: `.py`, `.ts`, `.js`, `.md`, `.yaml`, `.json`, `.html`, `.css`
     - Detect explicit filenames using regex patterns
     - Detect path references using path separator detection
-  - [ ] 4.3 Ensure file detector tests pass (XS)
+  - [x] 4.3 Ensure file detector tests pass (XS)
     - Run ONLY the 5 tests written in 4.1
     - Verify all file type detections work correctly
 
@@ -152,15 +152,15 @@ This breakdown covers the foundational infrastructure for Red64's context-aware 
 **Dependencies:** Task Groups 3, 4
 **Effort:** M (Medium)
 
-- [ ] 5.0 Complete budget manager script
-  - [ ] 5.1 Write 6 focused tests for token budget management (S)
+- [x] 5.0 Complete budget manager script
+  - [x] 5.1 Write 6 focused tests for token budget management (S)
     - Test: Reads budget from `config.yaml` token_budget section
     - Test: Uses default 3000 tokens if not specified
     - Test: Sorts context items by priority (lower number = higher priority)
     - Test: Truncates lower-priority items when budget exceeded
     - Test: Excludes items entirely if truncation insufficient
     - Test: Includes exclusion summary when items removed
-  - [ ] 5.2 Create `budget-manager.py` script (M)
+  - [x] 5.2 Create `budget-manager.py` script (M)
     - Location: `plugins/core/scripts/budget-manager.py`
     - Python 3.11+ with full type hints
     - Input: JSON via stdin with `context_items` array and `config_path`
@@ -171,12 +171,12 @@ This breakdown covers the foundational infrastructure for Red64's context-aware 
       1. Truncate lower-priority items
       2. Exclude items if still over budget
       3. Generate exclusion summary
-  - [ ] 5.3 Create config validation utilities (S)
+  - [x] 5.3 Create config validation utilities (S)
     - Location: `plugins/core/scripts/config_utils.py`
     - Function to load and validate `.red64/config.yaml`
     - Raise appropriate errors for missing/malformed config
     - Return typed config object
-  - [ ] 5.4 Ensure budget manager tests pass (XS)
+  - [x] 5.4 Ensure budget manager tests pass (XS)
     - Run ONLY the 6 tests written in 5.1
     - Verify all budget behaviors work correctly
 
@@ -196,8 +196,8 @@ This breakdown covers the foundational infrastructure for Red64's context-aware 
 **Dependencies:** Task Groups 3, 4, 5
 **Effort:** M (Medium)
 
-- [ ] 6.0 Complete context loader main script
-  - [ ] 6.1 Write 8 focused tests for context loader integration (M)
+- [x] 6.0 Complete context loader main script
+  - [x] 6.1 Write 8 focused tests for context loader integration (M)
     - Test: Receives prompt via stdin JSON correctly
     - Test: Validates config presence and exits code 2 if missing
     - Test: Validates config format and exits code 2 if malformed
@@ -206,7 +206,7 @@ This breakdown covers the foundational infrastructure for Red64's context-aware 
     - Test: Chains to budget-manager.py and captures output
     - Test: Returns valid JSON with `hookSpecificOutput.additionalContext`
     - Test: Error message directs user to run `/red64:init` if config missing
-  - [ ] 6.2 Create `context-loader.py` main script (M)
+  - [x] 6.2 Create `context-loader.py` main script (M)
     - Location: `plugins/core/scripts/context-loader.py`
     - Python 3.11+ with full type hints
     - Main entry point for UserPromptSubmit hook
@@ -218,12 +218,12 @@ This breakdown covers the foundational infrastructure for Red64's context-aware 
       - `budget-manager.py` for token budget enforcement
     - Output JSON with `hookSpecificOutput.additionalContext` structure
     - Exit code 0 for success, exit code 2 for blocking errors
-  - [ ] 6.3 Implement error handling and user feedback (S)
+  - [x] 6.3 Implement error handling and user feedback (S)
     - Clear, actionable error messages
     - Direct users to run `/red64:init` when config missing
     - Validate JSON input format
     - Handle sub-script failures gracefully
-  - [ ] 6.4 Ensure context loader tests pass (XS)
+  - [x] 6.4 Ensure context loader tests pass (XS)
     - Run ONLY the 8 tests written in 6.1
     - Verify end-to-end flow works correctly
 
@@ -242,8 +242,8 @@ This breakdown covers the foundational infrastructure for Red64's context-aware 
 **Dependencies:** Task Groups 1-6
 **Effort:** S (Small)
 
-- [ ] 7.0 Review existing tests and fill critical gaps
-  - [ ] 7.1 Review tests from Task Groups 1-6 (XS)
+- [x] 7.0 Review existing tests and fill critical gaps
+  - [x] 7.1 Review tests from Task Groups 1-6 (XS)
     - Review 4 tests from Task 1.1 (configuration/init)
     - Review 3 tests from Task 2.1 (hook infrastructure)
     - Review 6 tests from Task 3.1 (task detector)
@@ -251,18 +251,18 @@ This breakdown covers the foundational infrastructure for Red64's context-aware 
     - Review 6 tests from Task 5.1 (budget manager)
     - Review 8 tests from Task 6.1 (context loader)
     - Total existing tests: 32 tests
-  - [ ] 7.2 Analyze test coverage gaps for Core Foundation feature (XS)
+  - [x] 7.2 Analyze test coverage gaps for Core Foundation feature (XS)
     - Identify end-to-end workflow gaps
     - Check integration points between scripts
     - Focus ONLY on gaps related to this spec's requirements
     - Do NOT assess entire application coverage
-  - [ ] 7.3 Write up to 6 additional integration tests if needed (S)
+  - [x] 7.3 Write up to 6 additional integration tests if needed (S)
     - Integration test: Full hook flow from prompt to context output
     - Integration test: Config validation across all scripts
     - Integration test: Token budget with multiple context items
     - Integration test: Error propagation through script chain
     - Add maximum of 6 new tests for critical gaps only
-  - [ ] 7.4 Run feature-specific tests only (XS)
+  - [x] 7.4 Run feature-specific tests only (XS)
     - Run ONLY tests related to Core Foundation feature
     - Expected total: approximately 32-38 tests
     - Do NOT run entire application test suite

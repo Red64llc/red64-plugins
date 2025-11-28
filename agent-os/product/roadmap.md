@@ -4,12 +4,12 @@
 
 ## Milestone 1: Core Foundation & Marketplace
 
-1. [X] Red64 marketplace repository -- Create marketplace with `.claude-plugin/marketplace.json` listing all Red64 plugins `S`
-2. [X] Plugin manifest and structure -- Create `plugins/core` plugin with `.claude-plugin/plugin.json`, directory structure for `commands/`, `agents/`, `skills/`, `hooks/`, and README documentation `S`
-3. [ ] Project initialization command -- `/red64:init` command (in `plugins/core/commands/`) that creates `.red64/` directory structure with config.yaml `S`
-4. [ ] Hook infrastructure -- Implement `hooks/hooks.json` with `UserPromptSubmit` hook that analyzes prompts and prepares for context injection `M`
-5. [ ] Context loader script -- Python script (`scripts/context-loader.py`) that detects file types, keywords, and task type from user prompts `M`
-6. [ ] Token budget management -- Configurable token budgets in `.red64/config.yaml` with priority-based selection when limits are reached `S`
+1. [x] Red64 marketplace repository -- Create marketplace with `.claude-plugin/marketplace.json` listing all Red64 plugins `S`
+2. [x] Plugin manifest and structure -- Create `plugins/core` plugin with `.claude-plugin/plugin.json`, directory structure for `commands/`, `agents/`, `skills/`, `hooks/`, and README documentation `S`
+3. [x] Project initialization command -- `/red64:init` command (in `plugins/core/commands/`) that creates `.red64/` directory structure with config.yaml `S`
+4. [x] Hook infrastructure -- Implement `hooks/hooks.json` with `UserPromptSubmit` hook that analyzes prompts and prepares for context injection `M`
+5. [x] Context loader script -- Python script (`scripts/context-loader.py`) that detects file types, keywords, and task type from user prompts `M`
+6. [x] Token budget management -- Configurable token budgets in `.red64/config.yaml` with priority-based selection when limits are reached `S`
 
 ## Milestone 2: Product Planning Workflow
 
