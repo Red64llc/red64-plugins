@@ -1,0 +1,21 @@
+task_groups:
+  - name: Document Templates
+    claude_code_subagent: implementer
+    standards:
+      - global/*
+  - name: Planning Commands
+    claude_code_subagent: implementer
+    standards:
+      - global/*
+  - name: Context Processing Scripts
+    claude_code_subagent: implementer
+    standards:
+      - global/*
+  - name: Context Injection Hook
+    claude_code_subagent: implementer
+    standards:
+      - global/*
+  - name: Test Review and End-to-End Verification
+    claude_code_subagent: implementer
+    standards:
+      - global/*

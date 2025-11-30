@@ -15,11 +15,11 @@
 
 > All commands below live in `plugins/core/commands/` directory
 
-7. [ ] Product planning command -- `/red64:plan-product` command that guides users through creating mission, roadmap, and tech-stack documents `M`
-8. [ ] Mission document template -- Template and workflow for capturing product pitch, users, problems, differentiators, and success metrics `S`
-9. [ ] Roadmap document template -- Template for structured feature roadmap with prioritized checklist format `S`
-10. [ ] Tech stack document template -- Template for documenting all technology choices with rationale `XS`
-11. [ ] Product context injection -- Hook (in `hooks/hooks.json`) that loads relevant product context (mission-lite, current roadmap item) into prompts `S`
+7. [x] Product planning command -- `/red64:plan-product` command that guides users through creating mission, roadmap, and tech-stack documents `M`
+8. [x] Mission document template -- Template and workflow for capturing product pitch, users, problems, differentiators, and success metrics `S`
+9. [x] Roadmap document template -- Template for structured feature roadmap with prioritized checklist format `S`
+10. [x] Tech stack document template -- Template for documenting all technology choices with rationale `XS`
+11. [x] Product context injection -- Hook (in `hooks/hooks.json`) that loads relevant product context (mission-lite, current roadmap item) into prompts `S`
 
 ## Milestone 3: Standards Plugin Architecture
 

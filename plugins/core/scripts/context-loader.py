@@ -3,7 +3,8 @@
 
 This is the main entry point that orchestrates the context loading pipeline.
 It validates configuration, chains to sub-scripts for task detection,
-file detection, and budget management, then returns structured context.
+file detection, budget management, and product context, then returns
+structured context.
 """
 
 import json
@@ -48,6 +49,12 @@ class BudgetManagerOutput(TypedDict, total=False):
 
     selected_items: list[dict]
     exclusion_summary: str
+
+
+class ProductContextOutput(TypedDict):
+    """Output schema from product-context.py."""
+
+    product_context: str
 
 
 class HookOutput(TypedDict):
@@ -136,10 +143,30 @@ def manage_budget(
     )
 
 
+def get_product_context(cwd: str) -> str | None:
+    """Run product-context.py to get product context.
+
+    Args:
+        cwd: Current working directory.
+
+    Returns:
+        Product context string or None if unavailable.
+    """
+    try:
+        result = run_sub_script("product-context.py", {"cwd": cwd})
+        product_context = result.get("product_context", "")
+        if product_context and "No product context available" not in product_context:
+            return product_context
+        return None
+    except RuntimeError:
+        return None
+
+
 def format_additional_context(
     task_type: str,
     file_types: list[str],
     budget_result: BudgetManagerOutput,
+    product_context: str | None = None,
 ) -> str:
     """Format the additional context string for hook output.
 
@@ -147,6 +174,7 @@ def format_additional_context(
         task_type: Detected task type from task-detector.
         file_types: Detected file types from file-detector.
         budget_result: Result from budget-manager.
+        product_context: Optional product context from product-context.py.
 
     Returns:
         Formatted context string.
@@ -163,6 +191,10 @@ def format_additional_context(
     if budget_result.get("exclusion_summary"):
         lines.append("")
         lines.append(f"*{budget_result['exclusion_summary']}*")
+
+    if product_context:
+        lines.append("")
+        lines.append(product_context)
 
     return "\n".join(lines)
 
@@ -206,7 +238,8 @@ def main() -> int:
     1. Read and validate JSON input from stdin
     2. Validate .red64/config.yaml presence and format
     3. Chain to sub-scripts for task/file detection and budget management
-    4. Return structured JSON with hookSpecificOutput.additionalContext
+    4. Get product context from product-context.py
+    5. Return structured JSON with hookSpecificOutput.additionalContext
 
     Returns:
         Exit code: 0 for success, 2 for blocking errors.
@@ -259,10 +292,13 @@ def main() -> int:
     except RuntimeError:
         budget_result = {"selected_items": []}
 
+    product_context = get_product_context(cwd)
+
     additional_context = format_additional_context(
         task_type,
         file_types,
         budget_result,
+        product_context,
     )
 
     output = create_success_output(additional_context)
