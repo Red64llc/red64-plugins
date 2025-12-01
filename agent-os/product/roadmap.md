@@ -25,13 +25,13 @@
 
 > Standards are separate plugins in the Red64 marketplace. Each standards plugin uses **Skills** (`skills/SKILL.md`) that Claude autonomously applies based on task context, plus **Hooks** for enforcement.
 
-12. [ ] Standards plugin template -- Define standard plugin structure with `skills/` for guidelines and `hooks/` for enforcement `S`
-13. [ ] Standards skill format -- Define `SKILL.md` format that Claude autonomously uses when editing relevant file types `S`
-14. [ ] PreToolUse hook for standards -- Hook that triggers standards validation before Edit/Write tool usage `S`
-15. [ ] Reference standards plugin: TypeScript -- `red64-standards-typescript` plugin with skills for type system standards `M`
+12. [x] Standards plugin template -- Define standard plugin structure with `skills/` for guidelines and `hooks/` for enforcement `S`
+13. [x] Standards skill format -- Define `SKILL.md` format that Claude autonomously uses when editing relevant file types `S`
+14. [x] PreToolUse hook for standards -- Hook that triggers standards validation before Edit/Write tool usage `S`
+15. [x] Reference standards plugin: TypeScript -- `red64-standards-typescript` plugin with skills for type system standards `M`
 16. [ ] Reference standards plugin: Next.js -- `red64-standards-nextjs` plugin with App Router, Server Components skills `M`
 17. [ ] Reference standards plugin: Python -- `red64-standards-python` plugin with PEP compliance and typing skills `M`
-18. [ ] Standards composability -- Enable multiple standards plugins to work together via marketplace multi-install `S`
+18. [x] Standards composability -- Enable multiple standards plugins to work together via marketplace multi-install `S`
 
 ## Milestone 4: Spec-Driven Development Workflow
 
