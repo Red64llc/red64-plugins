@@ -1,0 +1,5 @@
+{
+    "name": "standards-template",
+    "description": "Template standards plugin - replace with your stack-specific standards",
+    "file_patterns": ["*.ts", "*.tsx"]
+}

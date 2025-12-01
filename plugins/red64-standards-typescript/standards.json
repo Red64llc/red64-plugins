@@ -1,0 +1,5 @@
+{
+    "name": "typescript-standards",
+    "description": "TypeScript coding standards covering naming conventions, type safety, error handling, module structure, and async patterns",
+    "file_patterns": ["*.ts", "*.tsx"]
+}

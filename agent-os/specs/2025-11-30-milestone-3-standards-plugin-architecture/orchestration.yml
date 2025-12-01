@@ -1,0 +1,29 @@
+task_groups:
+  - name: Config Schema Extension for Standards
+    claude_code_subagent: implementer
+    standards:
+      - global/*
+  - name: Standards Plugin Template
+    claude_code_subagent: implementer
+    standards:
+      - global/*
+  - name: Standards Enable/Disable Commands
+    claude_code_subagent: implementer
+    standards:
+      - global/*
+  - name: PreToolUse Hook for Standards Validation
+    claude_code_subagent: implementer
+    standards:
+      - global/*
+  - name: Context Loader Standards Integration
+    claude_code_subagent: implementer
+    standards:
+      - global/*
+  - name: TypeScript Standards Plugin
+    claude_code_subagent: implementer
+    standards:
+      - global/*
+  - name: Test Review and Integration Verification
+    claude_code_subagent: implementer
+    standards:
+      - global/*

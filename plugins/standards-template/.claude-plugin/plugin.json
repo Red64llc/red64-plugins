@@ -1,0 +1,10 @@
+{
+    "name": "standards-template",
+    "description": "Template for creating stack-specific coding standards plugins",
+    "source": "./plugins/standards-template",
+    "category": "standards",
+    "author": {
+        "name": "Red64",
+        "email": "support@red64.io"
+    }
+}

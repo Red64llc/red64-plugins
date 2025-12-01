@@ -3,8 +3,8 @@
 
 This is the main entry point that orchestrates the context loading pipeline.
 It validates configuration, chains to sub-scripts for task detection,
-file detection, budget management, and product context, then returns
-structured context.
+file detection, standards loading, budget management, and product context,
+then returns structured context.
 """
 
 import json
@@ -42,6 +42,29 @@ class FileDetectorOutput(TypedDict):
     """Output schema from file-detector.py."""
 
     file_types: list[str]
+
+
+class SkillInfo(TypedDict):
+    """Information about a loaded skill."""
+
+    name: str
+    content: str
+
+
+class StandardInfo(TypedDict):
+    """Information about a matched standard plugin."""
+
+    plugin_name: str
+    skills: list[SkillInfo]
+    priority: int
+
+
+class StandardsLoaderOutput(TypedDict, total=False):
+    """Output schema from standards-loader.py."""
+
+    standards: list[StandardInfo]
+    precedence_note: str
+    error: str
 
 
 class BudgetManagerOutput(TypedDict, total=False):
@@ -121,6 +144,25 @@ def detect_files(prompt: str) -> FileDetectorOutput:
     return run_sub_script("file-detector.py", {"prompt": prompt})
 
 
+def load_standards(file_types: list[str], cwd: str) -> StandardsLoaderOutput:
+    """Run standards-loader.py to load applicable standards skills.
+
+    Args:
+        file_types: List of detected file types from the prompt.
+        cwd: Current working directory.
+
+    Returns:
+        StandardsLoaderOutput with matched standards and skills.
+    """
+    return run_sub_script(
+        "standards-loader.py",
+        {
+            "file_types": file_types,
+            "cwd": cwd,
+        },
+    )
+
+
 def manage_budget(
     context_items: list[dict],
     config_path: str,
@@ -162,11 +204,102 @@ def get_product_context(cwd: str) -> str | None:
         return None
 
 
+def create_standards_context_items(
+    standards_result: StandardsLoaderOutput,
+    token_budget_priority: int,
+) -> list[dict]:
+    """Create context items from loaded standards for budget management.
+
+    Args:
+        standards_result: Output from standards-loader.py.
+        token_budget_priority: Priority value for standards in token budget.
+
+    Returns:
+        List of context items with name, content, and priority.
+    """
+    context_items: list[dict] = []
+    standards = standards_result.get("standards", [])
+
+    if not standards:
+        return context_items
+
+    total_standards = len(standards)
+    for idx, standard in enumerate(standards):
+        plugin_name = standard.get("plugin_name", "unknown")
+        skills = standard.get("skills", [])
+
+        skill_contents: list[str] = []
+        for skill in skills:
+            skill_contents.append(skill.get("content", ""))
+
+        combined_content = "\n\n".join(skill_contents)
+        if combined_content:
+            adjusted_priority = token_budget_priority + (idx / (total_standards + 1))
+            context_items.append({
+                "name": f"standards:{plugin_name}",
+                "content": combined_content,
+                "priority": adjusted_priority,
+            })
+
+    return context_items
+
+
+def format_standards_context(
+    standards_result: StandardsLoaderOutput,
+    selected_items: list[dict],
+) -> str:
+    """Format standards skills for inclusion in context output.
+
+    Args:
+        standards_result: Output from standards-loader.py.
+        selected_items: Items selected by budget manager.
+
+    Returns:
+        Formatted string with standards headers and content.
+    """
+    lines: list[str] = []
+    standards = standards_result.get("standards", [])
+
+    if not standards:
+        return ""
+
+    selected_names = {item.get("name", "") for item in selected_items}
+
+    precedence_note = standards_result.get("precedence_note")
+    if precedence_note:
+        lines.append("")
+        lines.append(f"*Note: {precedence_note}*")
+        lines.append("")
+
+    for standard in standards:
+        plugin_name = standard.get("plugin_name", "unknown")
+        item_name = f"standards:{plugin_name}"
+
+        if item_name not in selected_names and selected_items:
+            continue
+
+        skills = standard.get("skills", [])
+        if not skills:
+            continue
+
+        lines.append(f"## Standards: {plugin_name}")
+        lines.append("")
+
+        for skill in skills:
+            content = skill.get("content", "")
+            if content:
+                lines.append(content)
+                lines.append("")
+
+    return "\n".join(lines).strip()
+
+
 def format_additional_context(
     task_type: str,
     file_types: list[str],
     budget_result: BudgetManagerOutput,
     product_context: str | None = None,
+    standards_context: str | None = None,
 ) -> str:
     """Format the additional context string for hook output.
 
@@ -175,6 +308,7 @@ def format_additional_context(
         file_types: Detected file types from file-detector.
         budget_result: Result from budget-manager.
         product_context: Optional product context from product-context.py.
+        standards_context: Optional standards context from standards-loader.py.
 
     Returns:
         Formatted context string.
@@ -191,6 +325,10 @@ def format_additional_context(
     if budget_result.get("exclusion_summary"):
         lines.append("")
         lines.append(f"*{budget_result['exclusion_summary']}*")
+
+    if standards_context:
+        lines.append("")
+        lines.append(standards_context)
 
     if product_context:
         lines.append("")
@@ -237,9 +375,11 @@ def main() -> int:
     Orchestrates the context loading pipeline:
     1. Read and validate JSON input from stdin
     2. Validate .red64/config.yaml presence and format
-    3. Chain to sub-scripts for task/file detection and budget management
-    4. Get product context from product-context.py
-    5. Return structured JSON with hookSpecificOutput.additionalContext
+    3. Chain to sub-scripts for task/file detection
+    4. Load applicable standards based on detected file types
+    5. Manage token budget with standards included
+    6. Get product context from product-context.py
+    7. Return structured JSON with hookSpecificOutput.additionalContext
 
     Returns:
         Exit code: 0 for success, 2 for blocking errors.
@@ -258,7 +398,7 @@ def main() -> int:
 
     try:
         config_path = find_config_path(cwd)
-        _ = load_config(config_path)
+        config = load_config(config_path)
     except ConfigNotFoundError:
         output = create_error_output(
             "Error: Red64 configuration not found. "
@@ -286,11 +426,28 @@ def main() -> int:
     except RuntimeError:
         file_types = []
 
-    context_items: list[dict] = []
+    standards_result: StandardsLoaderOutput = {"standards": []}
+    standards_context_items: list[dict] = []
+    token_budget_priority = config.get("standards", {}).get("token_budget_priority", 3)
+
+    if file_types:
+        try:
+            standards_result = load_standards(file_types, cwd)
+            standards_context_items = create_standards_context_items(
+                standards_result, token_budget_priority
+            )
+        except RuntimeError:
+            pass
+
+    context_items: list[dict] = standards_context_items
+
     try:
         budget_result = manage_budget(context_items, str(config_path))
     except RuntimeError:
-        budget_result = {"selected_items": []}
+        budget_result = {"selected_items": context_items}
+
+    selected_items = budget_result.get("selected_items", [])
+    standards_context = format_standards_context(standards_result, selected_items)
 
     product_context = get_product_context(cwd)
 
@@ -299,6 +456,7 @@ def main() -> int:
         file_types,
         budget_result,
         product_context,
+        standards_context,
     )
 
     output = create_success_output(additional_context)

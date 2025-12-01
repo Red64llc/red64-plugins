@@ -66,6 +66,9 @@ features:
   standards_injection: false
   multi_agent: false
   metrics: false
+standards:
+  enabled: []
+  token_budget_priority: 3
 ```
 
 ### Step 5: Output Success Message
@@ -105,6 +108,8 @@ Your Red64 project is ready for context-aware development.
 | `features` | `standards_injection` | false | Future: Auto-inject standards |
 | `features` | `multi_agent` | false | Future: Multi-agent support |
 | `features` | `metrics` | false | Future: Metrics collection |
+| `standards` | `enabled` | [] | List of enabled standard plugin names (order = precedence) |
+| `standards` | `token_budget_priority` | 3 | Priority for standards in token budget allocation |
 
 ## Notes
 
@@ -112,3 +117,4 @@ Your Red64 project is ready for context-aware development.
 - The default token budget of 3000 tokens aligns with the product mission metrics
 - Priority values are lower number = higher priority
 - All features flags default to false for this milestone
+- Standards enabled list is empty by default; use `/red64:standards-enable` to add standards

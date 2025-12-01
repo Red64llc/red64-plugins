@@ -190,6 +190,17 @@ def merge_with_defaults(config_data: dict[str, Any]) -> Red64Config:
     else:
         merged["features"] = defaults["features"]
 
+    if "standards" in config_data:
+        standards = config_data["standards"]
+        merged["standards"] = {
+            "enabled": standards.get("enabled", defaults["standards"]["enabled"]),
+            "token_budget_priority": standards.get(
+                "token_budget_priority", defaults["standards"]["token_budget_priority"]
+            ),
+        }
+    else:
+        merged["standards"] = defaults["standards"]
+
     return merged  # type: ignore[return-value]
 
 

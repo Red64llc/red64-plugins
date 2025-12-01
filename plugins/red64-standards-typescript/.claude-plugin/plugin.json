@@ -1,0 +1,10 @@
+{
+    "name": "red64-standards-typescript",
+    "description": "TypeScript coding standards plugin with best practices for naming conventions, type safety, error handling, module structure, and async patterns",
+    "source": "./plugins/red64-standards-typescript",
+    "category": "standards",
+    "author": {
+        "name": "Red64",
+        "email": "support@red64.io"
+    }
+}

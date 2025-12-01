@@ -47,6 +47,13 @@ class Features(TypedDict):
     metrics: bool
 
 
+class Standards(TypedDict):
+    """Standards plugin configuration section."""
+
+    enabled: list[str]
+    token_budget_priority: int
+
+
 class Red64Config(TypedDict):
     """Complete Red64 configuration schema."""
 
@@ -55,6 +62,7 @@ class Red64Config(TypedDict):
     context_loader: ContextLoader
     priorities: Priorities
     features: Features
+    standards: Standards
 
 
 def get_default_config() -> Red64Config:
@@ -89,6 +97,10 @@ def get_default_config() -> Red64Config:
             "standards_injection": False,
             "multi_agent": False,
             "metrics": False,
+        },
+        "standards": {
+            "enabled": [],
+            "token_budget_priority": 3,
         },
     }
 
