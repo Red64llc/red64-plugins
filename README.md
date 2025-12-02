@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/bouncing-red64.gif" alt="Red64 Logo" width="80">
+</p>
+
 # Red64
 
 **An open-source plugin framework for Claude Code**
