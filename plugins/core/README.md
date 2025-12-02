@@ -8,26 +8,27 @@ Installing Red64 Plugins in a New Project
 
 - Claude Code CLI installed
 - Python 3.11+ (for hook scripts)
-- PyYAML package (pip install pyyaml)
+- PyYAML package (`pip install pyyaml`)
+- curl (standard on macOS/Linux, for downloading scripts)
 
 ---
 
-## Method 1: Add Marketplace from Local Path
+## Method 1: Install from GitHub (Recommended)
 
-From your new project directory (e.g., /Users/yacin/Workspace/products/testing-001):
+From your new project directory:
 
 ```bash
 # Step 1: Open Claude Code in your project
-cd /Users/yacin/Workspace/products/testing-001
+cd /path/to/your/project
 claude
 
-# Step 2: Add the Red64 marketplace
-/plugin marketplace add /Users/yacin/Workspace/products/red64
+# Step 2: Add the Red64 marketplace from GitHub
+/plugin marketplace add https://github.com/Red64llc/red64-plugins
 
 # Step 3: Install the core plugin
 /plugin install core@red64-plugins
 
-# Step 4: Initialize Red64 in your project
+# Step 4: Initialize Red64 in your project (downloads scripts automatically)
 /red64:init
 ```
 
@@ -35,7 +36,7 @@ claude
 
 ## Method 2: Configure in settings.json (Team/Project Setup)
 
-Create .claude/settings.json in your project:
+Create `.claude/settings.json` in your project:
 
 ```json
 {
@@ -43,7 +44,7 @@ Create .claude/settings.json in your project:
     "allow": []
   },
   "marketplaces": [
-    "/Users/yacin/Workspace/products/red64"
+    "https://github.com/Red64llc/red64-plugins"
   ],
   "plugins": {
     "core@red64-plugins": {
@@ -55,23 +56,32 @@ Create .claude/settings.json in your project:
 
 Then run:
 ```bash
-cd /Users/yacin/Workspace/products/testing-001
+cd /path/to/your/project
 claude
 /red64:init
 ```
 
 ---
 
-## Method 3: Git-based Installation (for distribution)
+## Method 3: Local Development Installation
 
-Once Red64 is published to a git repository:
+For local development or offline use:
 
 ```bash
-# Add marketplace from GitHub
-/plugin marketplace add https://github.com/red64/plugins
+# Step 1: Clone the plugins repo
+git clone git@github.com:Red64llc/red64-plugins.git ~/red64-plugins
 
-# Install core plugin
+# Step 2: Add marketplace from local path
+/plugin marketplace add ~/red64-plugins
+
+# Step 3: Install and initialize
 /plugin install core@red64-plugins
+/red64:init
+```
+
+Or set the `RED64_PLUGIN_DIR` environment variable:
+```bash
+export RED64_PLUGIN_DIR=~/red64-plugins/core
 ```
 
 ---
@@ -142,6 +152,11 @@ Expected output:
 .red64/
 ├── config.yaml
 ├── product/
+├── scripts/
+│   ├── context-loader.py
+│   ├── context-loader.sh
+│   ├── config_utils.py
+│   └── ... (other scripts)
 ├── specs/
 └── metrics/
 ```
@@ -154,6 +169,7 @@ After running planning commands:
 │   ├── mission.md
 │   ├── roadmap.md
 │   └── tech-stack.md
+├── scripts/
 ├── specs/
 └── metrics/
 ```
@@ -165,11 +181,11 @@ After running planning commands:
 For convenience, here's a one-liner:
 
 ```bash
-cd /Users/yacin/Workspace/products/testing-001 && claude -p "/plugin marketplace add /Users/yacin/Workspace/products/red64 && /plugin install core@red64-plugins && /red64:init"
+cd /path/to/your/project && claude -p "/plugin marketplace add https://github.com/Red64llc/red64-plugins && /plugin install core@red64-plugins && /red64:init"
 ```
 
 Full setup with product planning:
 
 ```bash
-cd /Users/yacin/Workspace/products/testing-001 && claude -p "/plugin marketplace add /Users/yacin/Workspace/products/red64 && /plugin install core@red64-plugins && /red64:init && /red64:plan-mission && /red64:plan-roadmap && /red64:plan-tech-stack"
+cd /path/to/your/project && claude -p "/plugin marketplace add https://github.com/Red64llc/red64-plugins && /plugin install core@red64-plugins && /red64:init && /red64:plan-mission && /red64:plan-roadmap && /red64:plan-tech-stack"
 ```

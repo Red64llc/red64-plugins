@@ -4,7 +4,7 @@ Initialize the Red64 project structure in the current working directory.
 
 ## What This Command Does
 
-This command creates the `.red64/` directory structure with proper configuration for context-aware development workflows.
+This command creates the `.red64/` directory structure with proper configuration for context-aware development workflows, and copies the necessary hook scripts.
 
 ## Execution Steps
 
@@ -37,7 +37,7 @@ Continue to Step 3.
 Create the `.red64/` directory and its subdirectories:
 
 ```bash
-mkdir -p .red64/product .red64/specs .red64/metrics
+mkdir -p .red64/product .red64/specs .red64/metrics .red64/scripts
 ```
 
 ### Step 4: Generate Default Configuration
@@ -71,7 +71,91 @@ standards:
   token_budget_priority: 3
 ```
 
-### Step 5: Output Success Message
+### Step 5: Download Hook Scripts from GitHub
+
+Download the Red64 hook scripts to `.red64/scripts/` from the official GitHub repository.
+
+**GitHub Repository:** `https://github.com/Red64llc/red64-plugins`
+
+**Base URL for raw files:** `https://raw.githubusercontent.com/Red64llc/red64-plugins/main/core`
+
+Use `curl` to download each script (works on macOS and Linux):
+
+```bash
+# Base URL for raw GitHub content
+BASE_URL="https://raw.githubusercontent.com/Red64llc/red64-plugins/main/core"
+
+# Scripts from scripts/ directory
+SCRIPTS=(
+  "context-loader.py"
+  "context-loader.sh"
+  "config_utils.py"
+  "config_schema.py"
+  "budget-manager.py"
+  "file-detector.py"
+  "task-detector.py"
+  "mission-summarizer.py"
+  "product-context.py"
+  "roadmap-parser.py"
+  "standards-loader.py"
+)
+
+# Scripts from hooks/ directory
+HOOKS=(
+  "standards-validator.py"
+  "standards-validator.sh"
+)
+
+# Download scripts
+echo "Downloading Red64 scripts from GitHub..."
+for script in "${SCRIPTS[@]}"; do
+  curl -sSL "$BASE_URL/scripts/$script" -o ".red64/scripts/$script"
+done
+
+for hook in "${HOOKS[@]}"; do
+  curl -sSL "$BASE_URL/hooks/$hook" -o ".red64/scripts/$hook"
+done
+
+# Make shell scripts executable
+chmod +x .red64/scripts/*.sh
+
+echo "Scripts downloaded successfully."
+```
+
+**Fallback: If curl fails or no internet connection:**
+
+If downloading fails, you can manually copy scripts from a local Red64 installation:
+
+```bash
+# Option A: Use RED64_PLUGIN_DIR environment variable
+if [ -n "$RED64_PLUGIN_DIR" ]; then
+  cp "$RED64_PLUGIN_DIR/scripts/"*.py .red64/scripts/
+  cp "$RED64_PLUGIN_DIR/scripts/"*.sh .red64/scripts/
+  cp "$RED64_PLUGIN_DIR/hooks/"*.py .red64/scripts/
+  cp "$RED64_PLUGIN_DIR/hooks/"*.sh .red64/scripts/
+  chmod +x .red64/scripts/*.sh
+fi
+```
+
+**Required scripts:**
+
+| Script | Purpose |
+|--------|---------|
+| `context-loader.py` | Main context loading hook |
+| `context-loader.sh` | Shell wrapper for portability |
+| `config_utils.py` | Configuration utilities |
+| `config_schema.py` | Configuration schema definitions |
+| `budget-manager.py` | Token budget management |
+| `file-detector.py` | File type detection |
+| `task-detector.py` | Task type detection |
+| `mission-summarizer.py` | Mission file summarization |
+| `product-context.py` | Product context loading |
+| `roadmap-parser.py` | Roadmap file parsing |
+| `standards-loader.py` | Standards plugin loading |
+| `standards-validator.py` | PreToolUse standards validation |
+| `standards-validator.sh` | Shell wrapper for portability |
+
+### Step 6: Output Success Message
 
 Output the following success message:
 
@@ -84,6 +168,7 @@ Directory structure created:
   .red64/product/
   .red64/specs/
   .red64/metrics/
+  .red64/scripts/
 
 Your Red64 project is ready for context-aware development.
 ```

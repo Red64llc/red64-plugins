@@ -13,7 +13,7 @@ import pytest
 
 
 HOOKS_FILE_PATH = Path(__file__).parent.parent / "hooks" / "hooks.json"
-EXPECTED_SCRIPT_PATH = "python3 plugins/core/scripts/context-loader.py"
+EXPECTED_SCRIPT_PATH = ".red64/scripts/context-loader.sh"
 EXPECTED_TIMEOUT = 30
 
 
@@ -51,12 +51,12 @@ class TestHooksConfig:
     def test_hook_correctly_references_context_loader_script_path(
         self, hooks_config: dict
     ):
-        """Test: Hook correctly references context-loader.py script path."""
+        """Test: Hook correctly references context-loader.sh script path."""
         hook = hooks_config["hooks"]["UserPromptSubmit"][0]["hooks"][0]
 
         assert hook["command"] == EXPECTED_SCRIPT_PATH
-        assert "context-loader.py" in hook["command"]
-        assert "plugins/core/scripts/" in hook["command"]
+        assert "context-loader.sh" in hook["command"]
+        assert ".red64/scripts/" in hook["command"]
 
     def test_timeout_is_configured_to_30_seconds(self, hooks_config: dict):
         """Test: Timeout is configured to 30 seconds."""

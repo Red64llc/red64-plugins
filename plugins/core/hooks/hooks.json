@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 plugins/core/scripts/context-loader.py",
+            "command": ".red64/scripts/context-loader.sh",
             "timeout": 30
           }
         ]
@@ -16,7 +16,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 plugins/core/hooks/standards-validator.py",
+            "command": ".red64/scripts/standards-validator.sh",
             "timeout": 30
           }
         ]
