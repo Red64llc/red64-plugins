@@ -77,13 +77,13 @@ Download the Red64 hook scripts to `.red64/scripts/` from the official GitHub re
 
 **GitHub Repository:** `https://github.com/Red64llc/red64-plugins`
 
-**Base URL for raw files:** `https://raw.githubusercontent.com/Red64llc/red64-plugins/main/plugins/core`
+**Base URL for raw files:** `https://raw.githubusercontent.com/Red64llc/red64-plugins/refs/heads/main/plugins/core/`
 
 Use `curl` to download each script (works on macOS and Linux):
 
 ```bash
 # Base URL for raw GitHub content
-BASE_URL="https://raw.githubusercontent.com/Red64llc/red64-plugins/main/plugins/core"
+BASE_URL="https://raw.githubusercontent.com/Red64llc/red64-plugins/refs/heads/main/plugins/core/"
 
 # Scripts from scripts/ directory
 SCRIPTS=(
