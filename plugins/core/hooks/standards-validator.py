@@ -33,6 +33,7 @@ class ValidatorInput(TypedDict, total=False):
 class ValidatorOutput(TypedDict, total=False):
     """Output schema for PreToolUse hook response."""
 
+    event: str
     decision: str
     reason: str
     suggestion: str
@@ -242,6 +243,7 @@ def check_content_against_patterns(
                 pattern_lower = pattern.lower()
                 if check_pattern.replace(" ", "") in pattern_lower.replace(" ", ""):
                     return {
+                        "event": "PreToolUse",
                         "decision": "block",
                         "reason": f"Violates {plugin_name} standard: {violation_name}",
                         "suggestion": suggestion,
@@ -251,6 +253,7 @@ def check_content_against_patterns(
         if _pattern_matches_content(pattern, content):
             short_pattern = pattern[:100] + "..." if len(pattern) > 100 else pattern
             return {
+                "event": "PreToolUse",
                 "decision": "block",
                 "reason": f"Violates {plugin_name} standard: matches DON'T pattern",
                 "suggestion": f"Review the DON'T pattern: {short_pattern}",
@@ -330,17 +333,17 @@ def validate_tool_use(input_data: ValidatorInput) -> ValidatorOutput:
     cwd = input_data.get("cwd", "")
 
     if tool_name not in EDIT_WRITE_TOOLS:
-        return {"decision": "allow"}
+        return {"event": "PreToolUse", "decision": "allow"}
 
     file_path = tool_input.get("file_path", "")
     if not file_path:
-        return {"decision": "allow"}
+        return {"event": "PreToolUse", "decision": "allow"}
 
     config = load_config(cwd)
     enabled_standards = get_enabled_standards(config)
 
     if not enabled_standards:
-        return {"decision": "allow"}
+        return {"event": "PreToolUse", "decision": "allow"}
 
     plugins_dir = get_plugins_dir(cwd, input_data.get("plugins_dir"))
     applicable_standards = find_applicable_standards(
@@ -348,11 +351,11 @@ def validate_tool_use(input_data: ValidatorInput) -> ValidatorOutput:
     )
 
     if not applicable_standards:
-        return {"decision": "allow"}
+        return {"event": "PreToolUse", "decision": "allow"}
 
     content = tool_input.get("content", "")
     if not content:
-        return {"decision": "allow"}
+        return {"event": "PreToolUse", "decision": "allow"}
 
     for plugin_name, plugin_path in applicable_standards:
         dont_patterns = load_dont_patterns_from_plugin(plugin_path)
@@ -363,9 +366,10 @@ def validate_tool_use(input_data: ValidatorInput) -> ValidatorOutput:
             content, dont_patterns, plugin_name
         )
         if violation:
+            violation["event"] = "PreToolUse"
             return violation
 
-    return {"decision": "allow"}
+    return {"event": "PreToolUse", "decision": "allow"}
 
 
 def main() -> int:
@@ -380,7 +384,7 @@ def main() -> int:
     try:
         input_data: ValidatorInput = json.load(sys.stdin)
     except json.JSONDecodeError:
-        output: ValidatorOutput = {"decision": "allow"}
+        output: ValidatorOutput = {"event": "PreToolUse", "decision": "allow"}
         print(json.dumps(output))
         return 0
 

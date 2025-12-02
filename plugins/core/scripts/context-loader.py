@@ -83,6 +83,7 @@ class ProductContextOutput(TypedDict):
 class HookOutput(TypedDict):
     """Output schema for UserPromptSubmit hook response."""
 
+    event: str
     hookSpecificOutput: dict
 
 
@@ -347,6 +348,7 @@ def create_error_output(message: str) -> HookOutput:
         HookOutput with error message in additionalContext.
     """
     return {
+        "event": "UserPromptSubmit",
         "hookSpecificOutput": {
             "additionalContext": message,
         }
@@ -363,6 +365,7 @@ def create_success_output(additional_context: str) -> HookOutput:
         HookOutput with context in additionalContext.
     """
     return {
+        "event": "UserPromptSubmit",
         "hookSpecificOutput": {
             "additionalContext": additional_context,
         }
