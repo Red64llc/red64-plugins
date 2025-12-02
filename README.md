@@ -2,6 +2,9 @@
 
 **An open-source plugin framework for Claude Code**
 
+> **Warning**
+> This project is under active development and not yet ready for production use. APIs, commands, and functionality may change without notice. Use at your own risk.
+
 Red64 transforms Claude Code from a capable assistant into a disciplined enterprise development partner. It captures your coding standards, tech stack specifics, and development workflows to help Claude produce quality code reliably and consistently.
 
 ---
