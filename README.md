@@ -6,8 +6,12 @@
 
 **An open-source plugin framework for Claude Code**
 
-> **Warning**
-> This project is under active development and not yet ready for production use. APIs, commands, and functionality may change without notice. Use at your own risk.
+> **Warning** 
+> This project is under active development and not yet ready for production use. Do NOT expect the flow and all commands to work out of the box. APIs, commands, and functionality may change without notice. Use at your own risk.
+
+> **Update: December 15th, 2025**
+> Please read the [Gap Analysis](./documentation/CC-SDD_Gap_Analysis_HN_Version_5.md) for more information on future plans.
+> 
 
 Red64 transforms Claude Code from a capable assistant into a disciplined enterprise development partner. It captures your coding standards, tech stack specifics, and development workflows to help Claude produce quality code reliably and consistently.
 
