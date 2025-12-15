@@ -722,7 +722,7 @@ The spec-driven development landscape for AI coding agents is rapidly evolving. 
 |-----------|---------|--------------|--------|---------|
 | **cc-sdd** | gotalab | Slash commands + Steering files | Production | MIT |
 | **Agent OS** | Builder Methods | Instructions + Subagents | Production | MIT |
-| **Red64 Plugins** | Me (alpha) | Plugin-first + Hooks | Alpha | MIT |
+| **Red64 Plugins** | Me (pre-alpha) | Plugin-first + Hooks | pre-Alpha | MIT |
 
 ### Architectural Comparison
 
@@ -776,7 +776,7 @@ Agent OS uses a **subagent architecture** with detailed instruction files:
 
 #### Red64 Plugins: Plugin-First Architecture
 
-*Disclosure: This is my project, currently in alpha.*
+*Disclosure: This is my project, currently in pre-alpha, active development.*
 
 Red64 reimagines spec-driven development as a **modular plugin ecosystem** native to Claude Code:
 
@@ -1022,7 +1022,8 @@ The insight from Anthropic's article is correct: **code execution is the solutio
 This isn't just optimization — it's necessary for production use. Without intelligent MCP management, you can't build agents that connect to real enterprise systems with dozens of integrations.
 
 **Strengths**: Native plugin architecture, intelligent context management, composable standards, metrics-ready.
-**Status**: Alpha—APIs may change, not yet production-ready.
+
+**Status**: Pre-alpha, active development —APIs may change, not yet production-ready.
 
 ### Feature Matrix
 
@@ -1039,7 +1040,7 @@ This isn't just optimization — it's necessary for production use. Without inte
 | **Quality Gate Automation** | ❌ | ❌ | ⚠️ Planned |
 | **Metrics Collection** | ❌ | ❌ | ✅ Built-in |
 | **Tool Integrations** | ❌ | ⚠️ Limited | ✅ Extension system |
-| **Production Ready** | ✅ | ✅ | ❌ Alpha |
+| **Production Ready** | ✅ | ✅ | ❌ Pre-alpha |
 | **Multi-Agent Support** | ✅ 7 agents | ✅ Multiple | ⚠️ Claude Code only |
 
 ### Philosophy Comparison
@@ -1053,9 +1054,9 @@ This isn't just optimization — it's necessary for production use. Without inte
 | **Extensibility** | Templates | Subagents | Plugin system |
 | **Target User** | Any AI agent user | Any AI agent user | Enterprise teams |
 
-### Why Red64 Plugins Matters (Even in Alpha)
+### Why Red64 Plugins Matters (Even in Pre-alpha)
 
-While Red64 Plugins is not production-ready, its architectural ideas address several gaps:
+While Red64 Plugins is not production-ready (far from it), its architectural ideas address several gaps, and the approach documented here can already be used with cc-sdd:
 
 **1. Plugin Marketplace Model**
 ```bash
@@ -1186,7 +1187,7 @@ Based on this analysis, we recommend the following enhancements to the cc-sdd fr
 
 ### What I'm Building: A Refactored Approach
 
-Full disclosure: I'm working on a refactoring of cc-sdd that addresses these gaps. It's called [Red64 Plugins](https://github.com/Red64llc/red64-plugins) and it's currently alpha-quality (don't use it in production yet). The goals:
+Full disclosure: I'm working on a refactoring of cc-sdd that addresses these gaps. It's called [Red64 Plugins](https://github.com/Red64llc/red64-plugins) and it's currently pre-alpha-quality (don't use it in production yet). The goals:
 
 - **Native Git Flow integration** with automatic branch creation, worktrees, and PR automation
 - **Quality gate automation** via CodeRabbit and SonarQube integration (with pluggable open source alternatives)
